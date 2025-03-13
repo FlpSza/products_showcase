@@ -26,18 +26,21 @@ async function fetchProducts() {
             );
             const details = await productDetails.json();
 
-            const imageUrl = details[0].items[0].images[0].imageUrl;
+            // const imageUrl = details[0].items[0].images[0].imageUrl;
+            const images = details[0].items[0].images.map(img => img.imageUrl);
             const price = details[0].items[0].sellers[0].commertialOffer.Price;
+            const listPrice = details[0].items[0].sellers[0].commertialOffer.ListPrice;
 
             const productCard = document.createElement("div");
             productCard.classList.add("product-card");
 
             productCard.innerHTML = `
-                <img class="product-image" src="${imageUrl}" alt="${product.productName}">
+                <img class="product-image" src="${images[0]}" alt="${product.productName}">
                 <h3>${product.productName}</h3>
                 <p>${product.brand}</p>
+                <p class="list-price">De: <s>R$ ${listPrice.toFixed(2)}</s></p>
                 <p class="price">R$ ${price.toFixed(2)}</p>
-                <button>Comprar</button>
+                <button class='buy-button'>Comprar</button>
             `;
 
             productGrid.appendChild(productCard);
@@ -56,7 +59,17 @@ async function fetchProducts() {
 
 async function loadMoreProducts() {
     currentPage++; // Incrementar para carregar os próximos produtos
-    fetchProducts(); // Carregar mais produtos
+    const response = await fetch("https://desafio.xlow.com.br/search");
+    const products = await response.json();
+
+    const startIndex = currentPage * PRODUCTS_PER_PAGE;
+    
+    // Se não houver mais produtos, volta para a primeira página
+    if (startIndex >= products.length) {
+        currentPage = 0; // Reinicia a páginação
+    }
+
+    fetchProducts(); // Carregar os produtos (agora pode reiniciar se necessário)
 }
 
 // Adicionar evento para o botão de "Alterar Layout"

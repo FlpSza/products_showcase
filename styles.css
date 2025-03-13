@@ -70,12 +70,32 @@ body {
 
 .product-card .product-name {
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 1px;
+    width: 100%;
+}
+
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.prev-btn {
+    left: 5px;
+}
+
+.next-btn {
+    right: 5px;
 }
 
 .product-card .product-price {
     color: #d32f2f;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
 }
 
@@ -123,6 +143,13 @@ body {
     color: #d9534f; /* Destaque para o preço */
     font-weight: bold;
 }
+
+.list-price {
+    color: #888;
+    text-decoration: line-through;
+    font-size: 0.9rem;
+}
+
 
 @media (max-width: 768px) {
     #product-grid {
