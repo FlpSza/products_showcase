@@ -11,8 +11,9 @@ body {
     padding: 20px;
 }
 
-.container p{
-    margin-top: 1%;
+.container p {
+    font-family: 'Times New Roman', Times, serif;
+    margin-top: -1%;
     margin-bottom: -0.1%;
 }
 
@@ -52,7 +53,6 @@ body {
     justify-content: space-between;
 }
 
-
 .product-card:hover {
     transform: scale(1.05); /* Efeito de destaque ao passar o mouse */
 }
@@ -64,33 +64,50 @@ body {
     border-bottom: 2px solid #ddd;
 }
 
-#product-image{
+#product-image {
     width: 1%;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block; /* Garante que a imagem e os botões fiquem no mesmo bloco */
+}
+
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;  /* Centraliza os botões na vertical */
+    transform: translateY(-50%);  /* Ajusta o alinhamento */
+    color: black;  /* Cor da seta */
+    background-color: transparent;  /* Fundo transparente */
+    border: none;  /* Sem borda */
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;  /* Garante que os botões fiquem sobre a imagem */
+    font-size: 24px;  /* Tamanho da seta */
+    transition: color 0.3s ease;  /* Transição suave para a cor da seta */
+}
+
+.prev-btn {
+    left: -10%;  /* Posiciona o botão à esquerda da imagem */
+}
+
+.next-btn {
+    right: -10%;  /* Posiciona o botão à direita da imagem */
+}
+
+.prev-btn:hover, .next-btn:hover {
+    color: #d9534f;  /* Cor da seta ao passar o mouse */
+}
+
+.product-image {
+    width: 100%;  /* Garante que a imagem ocupe toda a largura disponível */
+    height: auto;  /* Mantém a proporção da imagem */
 }
 
 .product-card .product-name {
     font-weight: bold;
     margin-bottom: 1px;
     width: 100%;
-}
-
-.prev-btn, .next-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.prev-btn {
-    left: 5px;
-}
-
-.next-btn {
-    right: 5px;
 }
 
 .product-card .product-price {
@@ -105,27 +122,32 @@ body {
 }
 
 .product-card .buy-button {
-    background-color: #6200ea;
-    color: #fff;
-    border: none;
+    background-color: transparent;  /* Fundo transparente */
+    color: #888;  /* Cor do texto */
+    border: 2px solid #888;  /* Borda visível */
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
     width: 100%;
+    transition: all 0.3s ease;  /* Transição suave para o hover */
 }
 
 .product-card .buy-button:hover {
-    background-color: #3700b3;
+    background-color: #888;  /* Fundo roxo ao passar o mouse */
+    color: #fff;  /* Cor do texto ao passar o mouse */
+    border-color: #888;  /* Cor de borda mais escura ao passar o mouse */
 }
 
 .toggle-view-button {
-    background-color: #6200ea;
-    color: #fff;
-    border: none;
-    padding: 5px 15px;
+    background-color: transparent;  /* Fundo transparente */
+    color: #888;  /* Cor do texto */
+    border: 2px solid #888;  /* Borda visível */
+    padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;  /* Transição suave para o hover */
 }
 
 .product-card h3 {
@@ -150,6 +172,44 @@ body {
     font-size: 0.9rem;
 }
 
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    padding: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+}
+
+.modal-image {
+    width: 50%;
+    height: auto;
+    margin-left: 25%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    color: black;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
 
 @media (max-width: 768px) {
     #product-grid {
