@@ -1,6 +1,16 @@
-let currentPage = 0;  
+let currentPage = 0;
 
-const PRODUCTS_PER_PAGE = 5; 
+// Determinar o número de produtos por página com base no tamanho da tela
+function getProductsPerPage() {
+    return window.innerWidth <= 768 ? 1 : 5;
+}
+
+let PRODUCTS_PER_PAGE = getProductsPerPage();
+
+window.addEventListener("resize", () => {
+    PRODUCTS_PER_PAGE = getProductsPerPage();
+    fetchProducts(); // Atualiza a exibição dos produtos ao redimensionar
+});
 
 async function fetchProducts() {
     const productGrid = document.getElementById("product-grid");
@@ -10,16 +20,14 @@ async function fetchProducts() {
         const response = await fetch("https://desafio.xlow.com.br/search");
         const products = await response.json();
 
-        // Limpar a grid antes de adicionar os novos produtos
-        productGrid.innerHTML = ''; 
-        
-        // Calcular o índice inicial e final dos produtos a serem exibidos
+        productGrid.innerHTML = '';
+
         const startIndex = currentPage * PRODUCTS_PER_PAGE;
         const endIndex = startIndex + PRODUCTS_PER_PAGE;
-        const productsToShow = products.slice(startIndex, endIndex);  // Seleciona os produtos da página atual
-        
+        const productsToShow = products.slice(startIndex, endIndex);
+
         productCount.textContent = productsToShow.length;
-        
+
         for (const product of productsToShow) {
             const productDetails = await fetch(
                 `https://desafio.xlow.com.br/search/${product.productId}`
@@ -35,9 +43,9 @@ async function fetchProducts() {
 
             productCard.innerHTML = `
             <div class="image-container">
-                <button class="prev-btn">&#8592;</button> 
+                <button class="prev-btn">&#8592;</button>
                 <img class="product-image" src="${images[0]}" alt="${product.productName}">
-                <button class="next-btn">&#8594;</button> 
+                <button class="next-btn">&#8594;</button>
             </div>
             <h3>${product.productName}</h3>
             <p>${product.brand}</p>
@@ -54,12 +62,10 @@ async function fetchProducts() {
 
             let currentImageIndex = 0;
 
-            // Função para mudar a imagem
             const changeImage = (index) => {
                 img.src = images[index];
             };
 
-            // Alterar para a imagem anterior
             prevBtn.addEventListener("click", () => {
                 if (currentImageIndex > 0) {
                     currentImageIndex--;
@@ -69,7 +75,6 @@ async function fetchProducts() {
                 changeImage(currentImageIndex);
             });
 
-            // Alterar para a próxima imagem
             nextBtn.addEventListener("click", () => {
                 if (currentImageIndex < images.length - 1) {
                     currentImageIndex++;
@@ -79,22 +84,18 @@ async function fetchProducts() {
                 changeImage(currentImageIndex);
             });
 
-            // Evento para expandir a imagem ao clicar nela
             img.addEventListener("click", () => {
                 openModal(images[currentImageIndex]);
             });
         }
 
-        // Garantir que a grid se reorganize corretamente após a inserção dos elementos
         productGrid.style.display = 'grid';
-        productGrid.style.gridTemplateColumns = 'repeat(5, 1fr)'; // Garantir que as colunas sejam 5
-
+        productGrid.style.gridTemplateColumns = `repeat(${PRODUCTS_PER_PAGE}, 1fr)`;
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);
     }
 }
 
-// Função para abrir a modal de imagem
 function openModal(imageSrc) {
     const modal = document.createElement("div");
     modal.classList.add("modal");
@@ -107,34 +108,23 @@ function openModal(imageSrc) {
     document.body.appendChild(modal);
 
     const closeBtn = modal.querySelector(".close-btn");
-    closeBtn.addEventListener("click", () => {
-        modal.remove();  // Fecha a modal
-    });
+    closeBtn.addEventListener("click", () => modal.remove());
 
-    // Fecha a modal quando clicar fora da imagem
     modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.remove();
-        }
+        if (e.target === modal) modal.remove();
     });
 }
 
 async function loadMoreProducts() {
-    currentPage++; // Incrementar para carregar os próximos produtos
+    currentPage++;
     const response = await fetch("https://desafio.xlow.com.br/search");
     const products = await response.json();
 
     const startIndex = currentPage * PRODUCTS_PER_PAGE;
-    
-    // Se não houver mais produtos, volta para a primeira página
-    if (startIndex >= products.length) {
-        currentPage = 0; // Reinicia a páginação
-    }
+    if (startIndex >= products.length) currentPage = 0;
 
-    fetchProducts(); // Carregar os produtos (agora pode reiniciar se necessário)
+    fetchProducts();
 }
 
-// Adicionar evento para o botão de "Alterar Layout"
 document.getElementById("toggle-layout").addEventListener("click", loadMoreProducts);
-
 window.onload = fetchProducts;

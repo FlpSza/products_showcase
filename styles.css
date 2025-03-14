@@ -211,14 +211,192 @@ body {
     cursor: pointer;
 }
 
+.carousel {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;  /* Remove a barra de rolagem */
+}
+
 @media (max-width: 768px) {
     #product-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 colunas em telas menores */
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 0; /* Remove espaçamento entre os cards */
+    }
+    
+    .product-card {
+        width: 100%;
+        max-width: 100%; /* Evita que o card ultrapasse a largura do container */
+        height: 580px; /* Altura fixa para manter o padrão dos cards */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .product-card:hover {
+        transform: scale(1.05); /* Efeito de destaque ao passar o mouse */
+    }
+    
+    .product-card img {
+        width: 100%;
+        height: 350px; /* Tamanho fixo para a imagem */
+        object-fit: cover; /* Garante que a imagem preencha sem deformar */
+        border-bottom: 2px solid #ddd;
+    }
+
+    .prev-btn {
+        left: -5%;  /* Posiciona o botão à esquerda da imagem */
+    }
+    
+    .next-btn {
+        right: -5%;  /* Posiciona o botão à direita da imagem */
+    }
+    
+    .prev-btn:hover, .next-btn:hover {
+        color: #d9534f;  /* Cor da seta ao passar o mouse */
+    }
+    
+    .product-image {
+        width: 100%;  /* Garante que a imagem ocupe toda a largura disponível */
+        height: auto;  /* Mantém a proporção da imagem */
+    }
+    
+    .product-card .product-name {
+        font-weight: bold;
+        margin-bottom: 1px;
+        width: 100%;
+    }
+    
+    .product-card .product-price {
+        color: #d32f2f;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .product-card .product-price.discount {
+        color: #388e3c;
+        text-decoration: line-through;
+    }
+    
+    .product-card .buy-button {
+        background-color: transparent;  /* Fundo transparente */
+        color: #888;  /* Cor do texto */
+        border: 2px solid #888;  /* Borda visível */
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%;
+        transition: all 0.3s ease;  /* Transição suave para o hover */
+    }
+    
+    .product-card .buy-button:hover {
+        background-color: #888;  /* Fundo roxo ao passar o mouse */
+        color: #fff;  /* Cor do texto ao passar o mouse */
+        border-color: #888;  /* Cor de borda mais escura ao passar o mouse */
+    }
+    
+    .toggle-view-button {
+        background-color: transparent;  /* Fundo transparente */
+        color: #888;  /* Cor do texto */
+        border: 2px solid #888;  /* Borda visível */
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: all 0.3s ease;  /* Transição suave para o hover */
+    }
+    
+    .product-card h3 {
+        font-size: 14px;
+        margin: 10px 0 5px;
+    }
+    
+    .product-card p {
+        color: #666;
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+    
+    .product-card .price {
+        color: #d9534f; /* Destaque para o preço */
+        font-weight: bold;
+    }
+    
+    .list-price {
+        color: #888;
+        text-decoration: line-through;
+        font-size: 0.9rem;
+    }
+    
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .modal-content {
+        position: relative;
+        background-color: #fff;
+        padding: 20px;
+        max-width: 90%;
+        max-height: 90%;
+        overflow: auto;
+    }
+    
+    .modal-image {
+        width: 50%;
+        height: auto;
+        margin-left: 25%;
+    }
+    
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+        color: black;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .carousel {
+        display: flex;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        gap: 10px;
+    }
+    
+    .carousel::-webkit-scrollbar {
+        display: none;  /* Remove a barra de rolagem */
     }
 }
 
 @media (max-width: 480px) {
     #product-grid {
-        grid-template-columns: 1fr; /* 1 coluna em telas pequenas */
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .product-card {
+        width: 90%;  /* Ajusta o tamanho dos cards no mobile */
+        max-width: 100%;  /* Garantir que o card não ultrapasse a tela */
     }
 }
